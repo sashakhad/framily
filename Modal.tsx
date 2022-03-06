@@ -1,6 +1,6 @@
-import React, { Dispatch, SetStateAction, useState } from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import { Modal, StyleSheet, Text, Pressable, View, Picker } from "react-native"
-import { Frequencies } from "./App"
+import { Frequencies } from "./ContactsScreen"
 
 export const OurModal = ({
   selectedContactId,

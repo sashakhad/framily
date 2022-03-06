@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import * as Contacts from 'expo-contacts';
+import { OurModal } from './Modal';
 
 export default function App() {
   const [contacts, setContacts] = useState<Contacts.Contact[]>([])
+  const [modalVisible, setModalVisible] = useState(false);
   useEffect(() => {
     (async () => {
       const { status } = await Contacts.requestPermissionsAsync();
@@ -21,15 +23,20 @@ export default function App() {
     })();
   }, []);
 
+  function handlePress(firstName?: string): void {
+    setModalVisible(true)
+  }
+
   return (
     <View style={styles.container}>
-      {contacts.map(({firstName, lastName}) => (
-        <>
-          <Text> {firstName} </Text>
-          <Text> {lastName} </Text>
-        </>
+      <OurModal {...{setModalVisible, modalVisible}} />
+      {contacts.map(({firstName, lastName, id}) => (
+        <TouchableOpacity key={id} onPress={() => handlePress(firstName)}>
+          <Text> {firstName} {lastName} </Text>
+        </TouchableOpacity>
       ))}
       <Text>Contacts Module Example</Text>
+
     </View>
   );
 }

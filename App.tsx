@@ -3,9 +3,14 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native"
 import * as Contacts from "expo-contacts"
 import { OurModal } from "./Modal"
 
+export type Frequencies = Record<string, string>
+
 export default function App() {
   const [contacts, setContacts] = useState<Contacts.Contact[]>([])
-  const [modalVisible, setModalVisible] = useState(false)
+  const [selectedContactId, setSelectedContactId] = useState<string | false>(
+    false
+  )
+  const [frequencies, setFrequencies] = useState<Frequencies>({})
   useEffect(() => {
     ;(async () => {
       const { status } = await Contacts.requestPermissionsAsync()
@@ -23,18 +28,24 @@ export default function App() {
     })()
   }, [])
 
-  function handlePress(firstName?: string): void {
-    setModalVisible(true)
+  function handlePress(id: string): void {
+    setSelectedContactId(id)
   }
 
   return (
     <View style={styles.container}>
-      <OurModal {...{ setModalVisible, modalVisible }} />
+      <OurModal
+        {...{
+          setSelectedContactId,
+          selectedContactId,
+          setFrequencies,
+          frequencies,
+        }}
+      />
       {contacts.map(({ firstName, lastName, id }) => (
-        <TouchableOpacity key={id} onPress={() => handlePress(firstName)}>
+        <TouchableOpacity key={id} onPress={() => handlePress(id)}>
           <Text>
-            {" "}
-            {firstName} {lastName}{" "}
+            {firstName} {lastName}: {frequencies[id]}
           </Text>
         </TouchableOpacity>
       ))}

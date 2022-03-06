@@ -1,30 +1,26 @@
 import React, { Dispatch, SetStateAction, useState } from "react"
-import {
-  Alert,
-  Modal,
-  StyleSheet,
-  Text,
-  Pressable,
-  View,
-  Picker,
-} from "react-native"
+import { Modal, StyleSheet, Text, Pressable, View, Picker } from "react-native"
+import { Frequencies } from "./App"
 
 export const OurModal = ({
-  modalVisible,
-  setModalVisible,
+  selectedContactId,
+  setSelectedContactId,
+  setFrequencies,
+  frequencies,
 }: {
-  modalVisible: boolean
-  setModalVisible: Dispatch<SetStateAction<boolean>>
+  selectedContactId: string | false
+  setSelectedContactId: Dispatch<SetStateAction<string | false>>
+  setFrequencies: Dispatch<SetStateAction<Frequencies>>
+  frequencies: Frequencies
 }) => {
-  const [selectedFrequency, setSelectedFrequency] = useState()
+  if (!selectedContactId) return null
   return (
     <Modal
       animationType="slide"
       transparent={true}
-      visible={modalVisible}
+      visible={!!selectedContactId}
       onRequestClose={() => {
-        Alert.alert("Modal has been closed.")
-        setModalVisible(!modalVisible)
+        setSelectedContactId(false)
       }}
     >
       <View style={styles.centeredView}>
@@ -33,10 +29,17 @@ export const OurModal = ({
           <Picker
             itemStyle={styles.pickerItem}
             style={styles.picker}
-            selectedValue={selectedFrequency}
-            onValueChange={(itemValue) => setSelectedFrequency(itemValue)}
+            selectedValue={frequencies[selectedContactId]}
+            onValueChange={(itemValue) =>
+              setFrequencies({
+                ...frequencies,
+                [selectedContactId]:
+                  itemValue !== "Not set" ? itemValue : undefined,
+              })
+            }
           >
             {[
+              "Not set",
               "1 week",
               "2 weeks",
               "1 month",
@@ -49,9 +52,9 @@ export const OurModal = ({
           </Picker>
           <Pressable
             style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => setSelectedContactId(false)}
           >
-            <Text style={styles.textStyle}>Hide Modal</Text>
+            <Text style={styles.textStyle}>Close Modal</Text>
           </Pressable>
         </View>
       </View>

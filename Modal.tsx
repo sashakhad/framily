@@ -16,7 +16,7 @@ export const OurModal = ({
   modalVisible: boolean;
   setModalVisible: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const [selectedLanguage, setSelectedLanguage] = useState();
+  const [selectedFrequency, setSelectedFrequency] = useState();
   return (
     <Modal
       animationType="slide"
@@ -31,15 +31,21 @@ export const OurModal = ({
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Minimum time till catchup</Text>
           <Picker
-            selectedValue="1 week"
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedLanguage(itemValue)
-            }
+            itemStyle={styles.pickerItem}
+            style={styles.picker}
+            selectedValue={selectedFrequency}
+            onValueChange={(itemValue) => setSelectedFrequency(itemValue)}
           >
-            <Picker.Item label="1 week" value="1 week" />
-            <Picker.Item label="1 month" value="1 month" />
-            <Picker.Item label="3 months" value="3 months" />
-            <Picker.Item label="1 week" value="1 week" />
+            {[
+              "1 week",
+              "2 weeks",
+              "1 month",
+              "3 months",
+              "6 months",
+              "1 year",
+            ].map((val) => (
+              <Picker.Item label={val} value={val} />
+            ))}
           </Picker>
           <Pressable
             style={[styles.button, styles.buttonClose]}
@@ -94,5 +100,11 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  picker: {
+    width: 300,
+  },
+  pickerItem: {
+    color: "grey",
   },
 });

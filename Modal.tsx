@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react"
 import {
   Alert,
   Modal,
@@ -7,24 +7,24 @@ import {
   Pressable,
   View,
   Picker,
-} from "react-native";
+} from "react-native"
 
 export const OurModal = ({
   modalVisible,
   setModalVisible,
 }: {
-  modalVisible: boolean;
-  setModalVisible: Dispatch<SetStateAction<boolean>>;
+  modalVisible: boolean
+  setModalVisible: Dispatch<SetStateAction<boolean>>
 }) => {
-  const [selectedFrequency, setSelectedFrequency] = useState();
+  const [selectedFrequency, setSelectedFrequency] = useState()
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-        setModalVisible(!modalVisible);
+        Alert.alert("Modal has been closed.")
+        setModalVisible(!modalVisible)
       }}
     >
       <View style={styles.centeredView}>
@@ -56,8 +56,8 @@ export const OurModal = ({
         </View>
       </View>
     </Modal>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -107,4 +107,4 @@ const styles = StyleSheet.create({
   pickerItem: {
     color: "grey",
   },
-});
+})

@@ -4,32 +4,21 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Button,
   ScrollView,
 } from "react-native"
 import * as Contacts from "expo-contacts"
 import { OurModal } from "./Modal"
+import { ScreenProps } from "./App"
 
-export type Frequencies = Record<string, string>
-
-export function ContactsScreen({ switchScreen }: { switchScreen: () => void }) {
-  const [contacts, setContacts] = useState<Contacts.Contact[]>([])
+export function ContactsScreen({
+  frequencies,
+  setFrequencies,
+  switchScreen,
+  contacts,
+}: ScreenProps) {
   const [selectedContactId, setSelectedContactId] = useState<string | false>(
     false
   )
-  const [frequencies, setFrequencies] = useState<Frequencies>({})
-  useEffect(() => {
-    ;(async () => {
-      const { status } = await Contacts.requestPermissionsAsync()
-      if (status === "granted") {
-        const { data } = await Contacts.getContactsAsync({
-          fields: [Contacts.Fields.Emails],
-        })
-
-        if (data.length > 0) setContacts(data)
-      }
-    })()
-  }, [])
 
   function handlePress(id: string): void {
     setSelectedContactId(id)

@@ -1,13 +1,28 @@
-import React, { useState } from "react"
+import { Contact } from "expo-contacts"
+import React from "react"
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native"
+import { ScreenProps } from "./App"
 
-export function UpNextScreen({ switchScreen }: { switchScreen: () => void }) {
+export function UpNextScreen({
+  contacts,
+  frequencies,
+  switchScreen,
+}: ScreenProps) {
+  const contactsById = contacts.reduce(
+    (memo, contact) => ({
+      ...memo,
+      [contact.id]: contact,
+    }),
+    {} as Record<string, Contact>
+  )
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={switchScreen}>
-        <Text>Done</Text>
+        <Text>Contacts</Text>
       </TouchableOpacity>
-      <Text>"Up Next Screen yo!"</Text>
+      {Object.keys(frequencies).map((id) => (
+        <Text>{`${contactsById[id].firstName} ${contactsById[id].firstName}: ${frequencies[id]}`}</Text>
+      ))}
     </View>
   )
 }
